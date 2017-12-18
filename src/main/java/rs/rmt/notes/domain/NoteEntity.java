@@ -2,6 +2,8 @@ package rs.rmt.notes.domain;
 
 import javax.persistence.*;
 
+import rs.rmt.notes.dto.NoteDto;
+
 @Entity
 @Table(name="note")
 public class NoteEntity {
@@ -18,6 +20,11 @@ public class NoteEntity {
     private UserEntity user;
 
     public NoteEntity() {
+    }
+    
+    public NoteEntity(NoteDto note) {
+    	this.code = note.getCode();
+    	this.noteText = note.getNoteText();
     }
 
     public Long getCode() {
