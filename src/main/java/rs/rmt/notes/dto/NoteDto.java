@@ -3,8 +3,6 @@ package rs.rmt.notes.dto;
 import rs.rmt.notes.domain.NoteEntity;
 
 public class NoteDto {
-
-	private Long code;
 	
     private String noteText;
 
@@ -12,7 +10,6 @@ public class NoteDto {
     }
     
     public NoteDto(NoteEntity noteEntity) {
-    	this.code = noteEntity.getCode();
     	this.noteText = noteEntity.getNoteText();
     }
 
@@ -24,14 +21,5 @@ public class NoteDto {
         this.noteText = noteText;
     }
 
-	public Long getCode() {
-		return code;
-	}
-
-	public void setCode(Long code) {
-		this.code = code;
-	}
-    
-    
     
 }

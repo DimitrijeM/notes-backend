@@ -1,28 +1,44 @@
 package rs.rmt.notes.service;
 
 
+import com.itextpdf.text.DocumentException;
 import org.springframework.stereotype.Service;
 import rs.rmt.notes.domain.NoteEntity;
 import rs.rmt.notes.dto.NoteDto;
+import rs.rmt.notes.dto.NoteExtDto;
+import rs.rmt.notes.exceptions.CodeException;
+import rs.rmt.notes.exceptions.FileLengthException;
 import rs.rmt.notes.responses.NotesResponse;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public interface NoteService {
 
-    public void setNote(Long userId, NoteDto noteDto);
+    public String setNote(Long userId, NoteDto noteDto) throws FileLengthException;
 
-    public ArrayList<NoteDto> getAllNotes(Long userId);
+    public ArrayList<NoteExtDto> getAllNotes(Long userId);
 
-    public NoteDto getNote(Long code);
+    public NoteDto getNote(String code) throws CodeException;
 
 //    public void updateNote(Long code, NoteEntity note);
 
-    public void deleteNote(Long code);
+    public void deleteNote(String code);
 
 
+
+    public List<String> getAllCodes();
+
+
+
+
+    public File getFileFor(String fileName);
+
+    public File getNoteAsFile(String code) throws CodeException, DocumentException, IOException;
 
 //    public ArrayList<NoteEntity> getNotesByUser(Long userId);
 

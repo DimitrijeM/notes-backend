@@ -19,6 +19,12 @@ public class UserEntity {
     @Column(name="password")
     private String password;
 
+    @Column(name="fullname")
+    private String fullname;
+
+    @Column(name="mail")
+    private String mail;
+
 //    @OneToMany(mappedBy = "note")
 //    private List<NoteEntity> notes;
 
@@ -49,11 +55,19 @@ public class UserEntity {
         this.password = password;
     }
 
-//    public List<NoteEntity> getNotes() {
-//        return notes;
-//    }
-//
-//    public void setNotes(List<NoteEntity> notes) {
-//        this.notes = notes;
-//    }
+    public String getFullname() {
+        return fullname;
+    }
+
+    public void setFullname(String fullname) {
+        this.fullname = fullname;
+    }
+
+    public String getMail() {
+        return mail;
+    }
+
+    public void setMail(String mail) {
+        this.mail = mail;
+    }
 }

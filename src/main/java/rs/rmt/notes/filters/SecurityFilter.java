@@ -55,27 +55,28 @@ public class SecurityFilter implements Filter{
             	logger.info("NO SECURE NEEDED FOR THIS API REQUEST : {} ", request.getRequestURI().toString());
                 chain.doFilter(servletRequest, servletResponse);
             }
-            
-            UserEntity user;
-            logger.info("USER AUTHORIZATION IS NEEEDED FOR THIS API REQUEST: {}", request.getRequestURI().toString());
-            
-            String uri = request.getRequestURI().toString();
-            String[] uriParts = uri.split("/");
-            // userId is the second part
-            int userId = Integer.parseInt(uriParts[2]);
-            System.out.println(userId + "");
- 
+            else {
 
-            try {
-				user = securityService.authenticateUser(request, userId);
-			} catch (AuthorizationException e) {
-	           	response.setStatus(401);
-		        throw new IOException(e.getMessage());
+				UserEntity user;
+				logger.info("USER AUTHORIZATION IS NEEEDED FOR THIS API REQUEST: {}", request.getRequestURI().toString());
+
+				String uri = request.getRequestURI().toString();
+				String[] uriParts = uri.split("/");
+				// userId is the second part
+				int userId = Integer.parseInt(uriParts[2]);
+				System.out.println(userId + "");
+
+
+				try {
+					user = securityService.authenticateUser(request, userId);
+				} catch (AuthorizationException e) {
+					response.setStatus(401);
+					throw new IOException(e.getMessage());
+				}
+
+				if (user != null)
+					chain.doFilter(servletRequest, servletResponse);
 			}
-            	
-            if(user != null) 
-            	chain.doFilter(servletRequest, servletResponse);
-         
 	}
 	
 

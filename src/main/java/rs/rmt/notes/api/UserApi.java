@@ -15,7 +15,7 @@ public class UserApi {
     @Autowired
     UserService userService;
 
-    @RequestMapping(value="/user", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value="/user/register", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public void setUser(@RequestBody UserEntity userEntity){
         userService.setUser(userEntity);
     }

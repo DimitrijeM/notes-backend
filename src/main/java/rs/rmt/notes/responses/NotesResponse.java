@@ -6,19 +6,19 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(code=HttpStatus.OK)
 public class NotesResponse {
 
-    private String message;
+    private String code;
 
     public NotesResponse() { }
 
-    public NotesResponse(String message) {
-        this.message = message;
+    public NotesResponse(String code) {
+        this.code = code;
     }
 
-    public String getMessage() {
-        return message;
+    public String getCode() {
+        return code;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public void setCode(String code) {
+        this.code = code;
     }
 }

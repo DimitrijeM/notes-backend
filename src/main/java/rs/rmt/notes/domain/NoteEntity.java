@@ -9,10 +9,10 @@ import rs.rmt.notes.dto.NoteDto;
 public class NoteEntity {
 
     @Id
-    @Column(name="id")
-    private Long code;
+    @Column(name="code")
+    private String code;
 
-    @Column(name="note_text")
+    @Column(name="note_text", length = 500)
     private String noteText;
 
     @ManyToOne
@@ -23,15 +23,14 @@ public class NoteEntity {
     }
     
     public NoteEntity(NoteDto note) {
-    	this.code = note.getCode();
     	this.noteText = note.getNoteText();
     }
 
-    public Long getCode() {
+    public String getCode() {
         return code;
     }
 
-    public void setCode(Long code) {
+    public void setCode(String code) {
         this.code = code;
     }
 
