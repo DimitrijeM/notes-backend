@@ -20,23 +20,24 @@ public class SecurityServiceImpl implements SecurityService{
 	UserRepository userRepository;
 	
 	
-	public UserEntity authenticateUser(HttpServletRequest request, int userId) throws AuthorizationException{
-		final String username = request.getHeader("AUTH_USERNAME");
-		final String password = request.getHeader("AUTH_PASSWORD");
-		
-//		System.out.println(username + "   " + password);
-		
-		List<UserEntity> users = userRepository.findByUsername(username);
+	public UserEntity authenticateUser(HttpServletRequest request, String username) throws AuthorizationException{
+		final String auth_username = request.getHeader("AUTH_USERNAME");
+		final String auth_password = request.getHeader("AUTH_PASSWORD");
+
+		List<UserEntity> users = userRepository.findByUsername(auth_username);
+//		for (UserEntity user: users) {
+//			System.out.println(user.getUsername() + " " + user.getPassword());
+//		}
 		
 		if(users == null || users.size() != 1) 
-			throw new AuthorizationException("User with this username doesn't exist.");
+			throw new AuthorizationException("User with username " + auth_username + " doesn't exist.");
 		
 		UserEntity user = users.get(0);
 		
-		if(user.getId() != userId) 
+		if(!user.getUsername().equals(username))
 			throw new AuthorizationException("URL and auth params don't match.");
 
-		if(!user.getPassword().equals(password))
+		if(!user.getPassword().equals(auth_password))
 			throw new AuthorizationException("Wrong password");
 		
 		return user;

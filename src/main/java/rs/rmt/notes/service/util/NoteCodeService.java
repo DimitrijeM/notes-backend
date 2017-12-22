@@ -6,5 +6,5 @@ import org.springframework.stereotype.Service;
 @Service
 public interface NoteCodeService {
 
-    public String generateCode(String text);
+    public String generateCode();
 }

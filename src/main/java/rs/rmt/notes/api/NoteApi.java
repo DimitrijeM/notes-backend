@@ -42,22 +42,26 @@ public class NoteApi {
 
     @RequestMapping(value = "/user/{userId}/note", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     // C
-    public NotesResponse setNote(@PathVariable Long userId, @RequestBody NoteDto noteDto) throws FileLengthException {
-        String code = noteService.setNote(userId, noteDto);
-        return new NotesResponse(code);
+    public @ResponseBody NoteExtDto setNote(@PathVariable Long userId, @RequestBody NoteDto noteDto) throws FileLengthException{
+//            throws FileLengthException {
+        try {
+            NoteEntity note = noteService.setNote(userId, noteDto);
+            return new NoteExtDto(note);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
     }
 
-    @RequestMapping(value = "/user/{userId}/note", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/user/{username}/note", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     // R
     public @ResponseBody
-    List<NoteExtDto> getAllNotes(@PathVariable Long userId) throws Exception {
-        return noteService.getAllNotes(userId);
+    List<NoteExtDto> getAllNotes(@PathVariable String username) throws Exception {
+        return noteService.getAllNotes(username);
     }
 
-    @RequestMapping(value = "/user/{userId}/note/{code}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    // R
-    public @ResponseBody
-    NoteDto getNote(@PathVariable String code) throws CodeException {
+    @RequestMapping(value = "/user/{userId}/note/{code}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE) // R
+    public @ResponseBody NoteDto getNote(@PathVariable String code) throws CodeException {
         return noteService.getNote(code);
     }
 
@@ -76,8 +80,8 @@ public class NoteApi {
 
 
 
-    @RequestMapping(value = "/user/{userId}/note-as-file/{code}", method = RequestMethod.GET,
-            produces = {MediaType.APPLICATION_PDF_VALUE, MediaType.APPLICATION_JSON_VALUE})
+    @RequestMapping(value = "/n-as-file/{code}", method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_PDF_VALUE)
     public @ResponseBody FileSystemResource getFile(@PathVariable String code) throws CodeException, DocumentException, IOException {
         return new FileSystemResource(noteService.getNoteAsFile(code));
     }

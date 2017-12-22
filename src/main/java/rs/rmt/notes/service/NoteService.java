@@ -19,9 +19,9 @@ import java.util.List;
 @Service
 public interface NoteService {
 
-    public String setNote(Long userId, NoteDto noteDto) throws FileLengthException;
+    public NoteEntity setNote(Long userId, NoteDto noteDto) throws FileLengthException;
 
-    public ArrayList<NoteExtDto> getAllNotes(Long userId);
+    public ArrayList<NoteExtDto> getAllNotes(String username);
 
     public NoteDto getNote(String code) throws CodeException;
 

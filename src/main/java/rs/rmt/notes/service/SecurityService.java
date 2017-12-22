@@ -10,6 +10,6 @@ import rs.rmt.notes.exceptions.AuthorizationException;
 @Service
 public interface SecurityService {
 	
-	public UserEntity authenticateUser(HttpServletRequest request, int userId) throws AuthorizationException;
+	public UserEntity authenticateUser(HttpServletRequest request, String username) throws AuthorizationException;
 
 }

@@ -8,6 +8,7 @@ import rs.rmt.notes.service.NoteService;
 import rs.rmt.notes.service.util.NoteCodeService;
 
 import java.util.GregorianCalendar;
+import java.util.Random;
 
 @Service
 public class NoteCodeServiceImpl implements NoteCodeService{
@@ -16,15 +17,33 @@ public class NoteCodeServiceImpl implements NoteCodeService{
     NoteService noteService;
 
     @Override
-    public String generateCode(String text) {
-        Long timestamp = new GregorianCalendar().getTimeInMillis();
-        String code = timestamp + "";
-        code = code.substring(0,6);
-        code = text.substring(0, 2) + code + text.substring(text.length()-3, text.length()-1) ;
+    public String generateCode() {
+
+        Random r = new Random();
+
+        String numbers = "1234567890";
+        String alphabet = "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPLKJHGFDSAZXCVBNM";
+
+        String code = "";
+
+        for (int i = 0; i < 3; i++)
+            code += numbers.charAt(r.nextInt(numbers.length()));
+
+        for (int i = 0; i < 7; i++)
+            code += alphabet.charAt(r.nextInt(alphabet.length()));
+
         System.out.println(code);
 
+//        Long timestamp = new GregorianCalendar().getTimeInMillis();
+//        code += timestamp ;
+//        code = code.substring(0,6);
+//        code = text.substring(0, 2) + code + text.substring(text.length()-3, text.length()-1) ;
+//        System.out.println(code);
+
+
+
         if(noteService.getAllCodes().contains(code)){
-            return generateCode(timestamp + text + timestamp + text.substring(2,3));
+            return generateCode();
         }
 
         return code;

@@ -17,6 +17,7 @@ import rs.rmt.notes.exceptions.FileLengthException;
 import rs.rmt.notes.service.NoteService;
 import rs.rmt.notes.service.util.NoteCodeService;
 
+import javax.jws.soap.SOAPBinding;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,24 +37,28 @@ public class NoteServiceImpl implements NoteService{
     NoteCodeService noteCodeService;
 
     @Override
-    public String setNote(Long userId, NoteDto noteDto) throws FileLengthException {
+    public NoteEntity setNote(Long userId, NoteDto noteDto) throws FileLengthException {
     	UserEntity user = userRepository.findOne(userId);
 
     	if(noteDto.getNoteText().length() > 500) {
     	    throw new FileLengthException("Max file length is 500 chars.");
         }
     	NoteEntity noteEntity = new NoteEntity(noteDto);
-    	String code = noteCodeService.generateCode(noteDto.getNoteText());
+    	String code = noteCodeService.generateCode();
     	noteEntity.setCode(code);
 
     	noteEntity.setUser(user);
-        noteRepository.save(noteEntity);
+        return noteRepository.save(noteEntity);
 
-        return code;
     }
 
     @Override
-    public ArrayList<NoteExtDto> getAllNotes(Long userId) {
+    public ArrayList<NoteExtDto> getAllNotes(String username) {
+
+        List<UserEntity> users = userRepository.findByUsername(username);
+        UserEntity user = users.get(0);
+        Long userId = user.getId();
+
         Iterable<NoteEntity> noteEntities = noteRepository.findNoteEntitiesByUserId(userId);
         ArrayList<NoteExtDto> notes = new ArrayList<>();
         for (NoteEntity noteE : noteEntities){

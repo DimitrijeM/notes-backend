@@ -2,6 +2,7 @@ package rs.rmt.notes.dto;
 
 
 import org.springframework.stereotype.Component;
+import rs.rmt.notes.domain.UserEntity;
 
 
 public class UserDto {
@@ -11,6 +12,11 @@ public class UserDto {
     private String password;
 
     public UserDto() {
+    }
+
+    public UserDto(UserEntity userEntity) {
+        this.username = userEntity.getUsername();
+        this.password = userEntity.getPassword();
     }
 
     public String getUsername() {
