@@ -1,22 +1,16 @@
 package rs.rmt.notes.dto;
 
-
-import org.springframework.stereotype.Component;
 import rs.rmt.notes.domain.UserEntity;
 
-
-public class UserDto {
-
+public class UserDto2 {
     private String username;
 
-    private String password;
 
-    public UserDto() {
+    public UserDto2() {
     }
 
-    public UserDto(UserEntity userEntity) {
+    public UserDto2(UserEntity userEntity) {
         this.username = userEntity.getUsername();
-        this.password = userEntity.getPassword();
     }
 
     public String getUsername() {
@@ -27,11 +21,4 @@ public class UserDto {
         this.username = username;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
 }
