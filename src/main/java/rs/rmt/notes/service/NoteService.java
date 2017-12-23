@@ -19,13 +19,13 @@ import java.util.List;
 @Service
 public interface NoteService {
 
-    public NoteEntity setNote(Long userId, NoteDto noteDto) throws FileLengthException;
+    public NoteEntity setNote(String username, NoteDto noteDto) throws FileLengthException;
 
     public ArrayList<NoteExtDto> getAllNotes(String username);
 
     public NoteDto getNote(String code) throws CodeException;
 
-//    public void updateNote(Long code, NoteEntity note);
+    public void updateNote(NoteExtDto note);
 
     public void deleteNote(String code);
 

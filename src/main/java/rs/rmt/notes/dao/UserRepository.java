@@ -5,9 +5,8 @@ import rs.rmt.notes.domain.UserEntity;
 
 import java.util.List;
 
-public interface UserRepository extends CrudRepository<UserEntity, Long> {
+public interface UserRepository extends CrudRepository<UserEntity, String> {
 
 //    findAll, findOne, save, delete
 
-    public List<UserEntity> findByUsername(String username);
 }

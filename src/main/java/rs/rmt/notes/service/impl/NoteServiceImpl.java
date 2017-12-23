@@ -37,8 +37,8 @@ public class NoteServiceImpl implements NoteService{
     NoteCodeService noteCodeService;
 
     @Override
-    public NoteEntity setNote(Long userId, NoteDto noteDto) throws FileLengthException {
-    	UserEntity user = userRepository.findOne(userId);
+    public NoteEntity setNote(String username, NoteDto noteDto) throws FileLengthException {
+    	UserEntity user = userRepository.findOne(username);
 
     	if(noteDto.getNoteText().length() > 500) {
     	    throw new FileLengthException("Max file length is 500 chars.");
@@ -54,12 +54,12 @@ public class NoteServiceImpl implements NoteService{
 
     @Override
     public ArrayList<NoteExtDto> getAllNotes(String username) {
-
-        List<UserEntity> users = userRepository.findByUsername(username);
-        UserEntity user = users.get(0);
-        Long userId = user.getId();
-
-        Iterable<NoteEntity> noteEntities = noteRepository.findNoteEntitiesByUserId(userId);
+        Iterable<NoteEntity> noteEntities;
+        try {
+            noteEntities = noteRepository.findNoteEntitiesByUserUsername(username);
+        } catch (IllegalArgumentException e){
+            return null;
+        }
         ArrayList<NoteExtDto> notes = new ArrayList<>();
         for (NoteEntity noteE : noteEntities){
             notes.add(new NoteExtDto(noteE));
@@ -77,10 +77,11 @@ public class NoteServiceImpl implements NoteService{
     }
 
 
-//    @Override
-//    public void updateNote(Long code, NoteEntity note) {
-//        noteRepository.save(note);
-//    }
+    @Override
+    public void updateNote(NoteExtDto note) {
+        NoteEntity noteEntity = new NoteEntity(note.getCode(), note.getNoteText());
+        noteRepository.save(noteEntity);
+    }
 
     @Override
     public void deleteNote(String code) {

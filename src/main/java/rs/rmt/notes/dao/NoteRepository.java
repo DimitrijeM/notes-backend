@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface NoteRepository extends CrudRepository<NoteEntity, String> {
 
-    public List<NoteEntity> findNoteEntitiesByUserId(Long id);
+    public List<NoteEntity> findNoteEntitiesByUserUsername(String username);
 
     @Query("SELECT n.code FROM #{#entityName} n")
     List<String> getAllCodes();

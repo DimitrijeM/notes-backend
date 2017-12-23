@@ -2,31 +2,17 @@ package rs.rmt.notes.api;
 
 
 import com.itextpdf.text.DocumentException;
-import org.apache.pdfbox.io.IOUtils;
-import org.aspectj.apache.bcel.classfile.Code;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-import rs.rmt.notes.consts.NotesConsts;
 import rs.rmt.notes.domain.NoteEntity;
-import rs.rmt.notes.domain.UserEntity;
 import rs.rmt.notes.dto.NoteDto;
 import rs.rmt.notes.dto.NoteExtDto;
-import rs.rmt.notes.dto.UserDto;
-import rs.rmt.notes.exceptions.AuthorizationException;
 import rs.rmt.notes.exceptions.CodeException;
-import rs.rmt.notes.exceptions.FileLengthException;
-import rs.rmt.notes.responses.NotesResponse;
 import rs.rmt.notes.service.NoteService;
 
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.swing.text.html.parser.Entity;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
 
 
@@ -37,43 +23,27 @@ public class NoteApi {
     @Autowired
     NoteService noteService;
 
-
-//    RestAPI
-
-    @RequestMapping(value = "/user/{userId}/note", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    // C
-    public @ResponseBody NoteExtDto setNote(@PathVariable Long userId, @RequestBody NoteDto noteDto) throws FileLengthException{
-//            throws FileLengthException {
-        try {
-            NoteEntity note = noteService.setNote(userId, noteDto);
-            return new NoteExtDto(note);
-        } catch (Exception e){
-            e.printStackTrace();
-        }
-        return null;
+    @RequestMapping(value = "/user/{username}/note", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE) // C
+    public @ResponseBody NoteExtDto setNote(@PathVariable String username, @RequestBody NoteDto noteDto) throws Exception{
+        NoteEntity note = noteService.setNote(username, noteDto);
+        return new NoteExtDto(note);
     }
 
-    @RequestMapping(value = "/user/{username}/note", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    // R
-    public @ResponseBody
-    List<NoteExtDto> getAllNotes(@PathVariable String username) throws Exception {
+    @RequestMapping(value = "/user/{username}/note", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE) // R
+    public @ResponseBody List<NoteExtDto> getAllNotes(@PathVariable String username) throws Exception {
         return noteService.getAllNotes(username);
     }
 
-    @RequestMapping(value = "/user/{userId}/note/{code}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE) // R
+    @RequestMapping(value = "/user/{username}/note/{code}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE) // R
     public @ResponseBody NoteDto getNote(@PathVariable String code) throws CodeException {
         return noteService.getNote(code);
     }
 
-    @RequestMapping(value = "/user/{userId}/note/{code}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-    // U
-    public void updateNote(@PathVariable Long userId, @PathVariable String code, @RequestBody NoteDto noteDto) throws FileLengthException {
-        noteService.setNote(userId, noteDto);
-    }
+// U
 
-    @RequestMapping(value = "/user/{userId}/note/{code}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/user/{username}/note/{code}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
     // D
-    public void deleteNote(@PathVariable Long userId, @PathVariable String code) {
+    public void deleteNote(@PathVariable String username, @PathVariable String code) {
         noteService.deleteNote(code);
     }
 

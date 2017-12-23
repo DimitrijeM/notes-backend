@@ -3,6 +3,7 @@ package rs.rmt.notes.service;
 
 import org.springframework.stereotype.Service;
 import rs.rmt.notes.domain.UserEntity;
+import rs.rmt.notes.dto.UserExtDto;
 import rs.rmt.notes.dto.UserDto;
 import rs.rmt.notes.exceptions.AuthorizationException;
 
@@ -16,13 +17,13 @@ public interface UserService {
 
     public ArrayList<UserEntity> getAllUsers();
 
-    public UserEntity getUser(Long id);
+    public UserDto getUser(String username);
 
-    public void updateUser(Long id, UserEntity user);
+    public void updateUser(String username, UserEntity user);
 
-    public void deleteUser(Long id);
+    public void deleteUser(String username);
 
 
-    public UserDto checkUser(UserDto userDto)  throws AuthorizationException;
+    public UserEntity checkUser(UserExtDto userDto)  throws AuthorizationException;
 
 }

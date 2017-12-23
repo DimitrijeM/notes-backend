@@ -5,12 +5,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import rs.rmt.notes.dao.UserRepository;
 import rs.rmt.notes.domain.UserEntity;
+import rs.rmt.notes.dto.UserExtDto;
 import rs.rmt.notes.dto.UserDto;
 import rs.rmt.notes.exceptions.AuthorizationException;
 import rs.rmt.notes.service.UserService;
 
 import java.util.ArrayList;
-import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService{
@@ -35,38 +35,37 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public UserEntity getUser(Long id) {
-        return userRepository.findOne(id);
+    public UserDto getUser(String username) {
+
+        UserEntity userEntity = userRepository.findOne(username);
+        return new UserDto(userEntity);
     }
 
 
     @Override
-    public void updateUser(Long id, UserEntity user) {
+    public void updateUser(String username, UserEntity user) {
         userRepository.save(user);
     }
 
     @Override
-    public void deleteUser(Long id) {
-        userRepository.delete(id);
+    public void deleteUser(String username) {
+        userRepository.delete(username);
     }
 
 
     @Override
-    public UserDto checkUser(UserDto userDto) throws AuthorizationException{
-        List<UserEntity> users = userRepository.findByUsername(userDto.getUsername());
+    public UserEntity checkUser(UserExtDto userDto) throws AuthorizationException{
+        UserEntity user = userRepository.findOne(userDto.getUsername());
 
-        if (users == null || users.isEmpty() || users.size() > 1
-                ){
+        if (user == null){
             throw new AuthorizationException("Login failed. Wrong username.");
         }
 
-        UserEntity userEntity = users.get(0);
-
-        if(!userEntity.getPassword().equals(userDto.getPassword())){
+        if(!user.getPassword().equals(userDto.getPassword())){
             throw new AuthorizationException("Login failed. Wrong password.");
         }
 
-        return userDto;
+        return user;
     }
 
 }

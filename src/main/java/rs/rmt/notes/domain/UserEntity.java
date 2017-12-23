@@ -9,10 +9,6 @@ import java.util.List;
 public class UserEntity {
 
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
-    @Column(name="id")
-    private Long id;
-
     @Column(name="username")
     private String username;
 
@@ -25,18 +21,7 @@ public class UserEntity {
     @Column(name="mail")
     private String mail;
 
-//    @OneToMany(mappedBy = "note")
-//    private List<NoteEntity> notes;
-
     public UserEntity() {
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getUsername() {

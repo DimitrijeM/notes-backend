@@ -16,12 +16,17 @@ public class NoteEntity {
     private String noteText;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "username")
     private UserEntity user;
 
     public NoteEntity() {
     }
-    
+
+    public NoteEntity(String code, String noteText) {
+        this.code = code;
+        this.noteText = noteText;
+    }
+
     public NoteEntity(NoteDto note) {
     	this.noteText = note.getNoteText();
     }

@@ -2,14 +2,14 @@ package rs.rmt.notes.dto;
 
 import rs.rmt.notes.domain.UserEntity;
 
-public class UserDto2 {
+public class UserDto {
     private String username;
 
 
-    public UserDto2() {
+    public UserDto() {
     }
 
-    public UserDto2(UserEntity userEntity) {
+    public UserDto(UserEntity userEntity) {
         this.username = userEntity.getUsername();
     }
 

@@ -5,16 +5,16 @@ import org.springframework.stereotype.Component;
 import rs.rmt.notes.domain.UserEntity;
 
 
-public class UserDto {
+public class UserExtDto {
 
     private String username;
 
     private String password;
 
-    public UserDto() {
+    public UserExtDto() {
     }
 
-    public UserDto(UserEntity userEntity) {
+    public UserExtDto(UserEntity userEntity) {
         this.username = userEntity.getUsername();
         this.password = userEntity.getPassword();
     }

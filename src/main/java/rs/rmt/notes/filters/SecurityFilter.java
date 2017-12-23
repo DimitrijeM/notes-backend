@@ -28,7 +28,7 @@ public class SecurityFilter implements Filter{
 	SecurityService securityService;
 	
 	
-//    private static Logger logger = LoggerFactory.getLogger(SecurityFilter.class);
+    private static Logger logger = LoggerFactory.getLogger(SecurityFilter.class);
 
 
 	@Override
@@ -38,31 +38,18 @@ public class SecurityFilter implements Filter{
 		HttpServletResponse response = (HttpServletResponse) servletResponse;
         HttpServletRequest request = (HttpServletRequest) servletRequest;
 
-//            logger.info("API REQUEST");
-            
-//            zakomentarisano mi ne treba, nisam se udubljivao
-//            response.setHeader("Access-Control-Allow-Origin", "*");
-//            response.setHeader("Access-Control-Allow-Methods", "POST, PUT, PATCH, GET, OPTIONS, DELETE");
-//            response.setHeader("Access-Control-Max-Age", "3600");
-//            response.setHeader("Access-Control-Allow-Headers", "Origin, x-requested-with, X-AUTH-TOKEN, Content-Type, Accept");
-////            response.setHeader("Access-Control-Allow-Headers", "Content-Type");
-
-//        cors is now a part of security filter
-
-
-            System.out.println("Request URI: "+request.getRequestURI());
+		System.out.println("Request URI: "+request.getRequestURI());
             if(!request.getRequestURI().contains("note")) {
-//            	logger.info("NO SECURE NEEDED FOR THIS API REQUEST : {} ", request.getRequestURI().toString());
+            	logger.info("NO SECURE NEEDED FOR THIS API REQUEST : {} ", request.getRequestURI().toString());
                 chain.doFilter(servletRequest, servletResponse);
             }
             else {
 
 				UserEntity user;
-//				logger.info("USER AUTHORIZATION IS NEEEDED FOR THIS API REQUEST: {}", request.getRequestURI().toString());
-
+				logger.info("USER AUTHORIZATION IS NEEEDED FOR THIS API REQUEST: {}", request.getRequestURI().toString());
 				String uri = request.getRequestURI().toString();
 				String[] uriParts = uri.split("/");
-				// userId is the second part
+				// username is the second part
 				String username = uriParts[2];
 //				System.out.println(userId + "");
 
